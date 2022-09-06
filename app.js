@@ -33,11 +33,12 @@ app.get('/access-token', (req, res) => {
     )
 })
 
+
 // listen
-app.listen(8100, (err, live) => {
+app.listen(`${process.env.PORT}`, (err, live) => {
     if(err){
         console.error(err)
     }
 
-    console.log('Server running on port 8100.');
+    console.log(`Server running on port ${process.env.PORT}.`);
 });
