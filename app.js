@@ -1,6 +1,7 @@
 const express = require('express');
 const request = require('request');
 const app = express();
+require("dotenv").config();
 
 // routes
 app.get('/', (req, res) => {
@@ -11,7 +12,7 @@ app.get('/access-token', (req, res) => {
     // access token
 
     let url = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
-    let auth = new Buffer('ITNqYY0yJE0qF1hVbug5PmD0y6MdFWBG:IzCv1CjMkrrYI3Py').toString('base64')
+    let auth = new Buffer(`${process.env.CONSUMER_KEY}:${process.env.CONSUMER_SECRET}`).toString('base64')
 
     request(
         {
@@ -25,17 +26,19 @@ app.get('/access-token', (req, res) => {
                 console.log(error);
             } 
             else {
-                res.status(200).json(body);
+                // res.status(200).json(body);
+                res.json(JSON.parse(body))
             }
         }
     )
 })
 
+
 // listen
-app.listen(8100, (err, live) => {
+app.listen(`${process.env.PORT}`, (err, live) => {
     if(err){
         console.error(err)
     }
 
-    console.log('Server running on port 8100.');
+    console.log(`Server running on port ${process.env.PORT}.`);
 });
